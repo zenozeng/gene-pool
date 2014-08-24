@@ -1,7 +1,7 @@
 // 测试完全穷举的性能
 
 var Combinatorics = require('js-combinatorics').Combinatorics;
-var n = 30;
+var n = 30; // 用32没有输出，可能是因为 1 << 32 = 1
 var arr = [];
 for(var i = 0; i < n; i++) {
     arr.push(i.toString());
