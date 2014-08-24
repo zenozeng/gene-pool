@@ -33,7 +33,15 @@ population.timeout(2000, function(err, results) {
 
 ## Demo
 
-Demo 是一个以亮度作为 fitness 的一个测试。
+Demo 是一个以五色总亮度作为 fitness 的一个测试。
+黑框表示是突变出来的基因。
+
+```javascript
+opts.K = 5;
+opts.N = 5;
+opts.mutationRate = 0.1;
+opts.birthRate = 1;
+```
 
 http://zenozeng.github.io/gene-pool/demo/
 
