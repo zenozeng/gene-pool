@@ -1,7 +1,7 @@
 {
   "name": "gene-pool",
   "description": "Genetic algorithms in a given gene pool",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "lib/population.js",
   "directories": {
     "test": "test"
