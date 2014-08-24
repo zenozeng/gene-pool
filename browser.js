@@ -140,6 +140,8 @@ population.next = function() {
     // 定向选择
     this.directionalSelection();
 
+    debugger;
+
     var child,
         gene;
     while(this.population.length < this.K) {
@@ -156,6 +158,8 @@ population.next = function() {
                 child.push(gene);
             }
         }
+        console.log(child);
+        debugger;
         this.tryAddIndividual(child);
     }
 };
