@@ -58,9 +58,9 @@ $.get('pool.json', function(data) {
         return data.weight;
     });
     opts.K = 5;
-    opts.N = 39;
+    opts.N = 5;
     opts.mutationRate = 0.1;
-    opts.survivalRate = 0.5;
+    opts.birthRate = 0.5;
     opts.fitness = fitness;
     var population = new GenePool(opts);
     drawColorSchemes(population.toArray(), 0);
