@@ -11,12 +11,15 @@ $.get('pool.json', function(data) {
     opts.N = 5;
     opts.mutationRate = 0.5;
     opts.survivalRate = 0.5;
-    opts.fitness = function(rgb) {
-        console.log('fitness', rgb);
-        return rgb[0];
+    opts.fitness = function(individual) {
+        var fitness = 0;
+        for(var i = 0; i < individual.length; i++) {
+            fitness += individual[i][0];
+        }
+        return fitness;
     };
-    console.log('hello');
     var population = new GenePool(opts);
+    console.log(population.toArray());
     window.population = population;
     population.next();
 });
