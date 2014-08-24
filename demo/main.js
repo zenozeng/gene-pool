@@ -14,7 +14,7 @@ var fitness = function(individual) {
     return fitness;
 };
 
-var drawColorSchemes = function(colorSchemes, timeout) {
+var drawColorSchemes = function(colorSchemes) {
     var indexA = colorSchemes.map(function(scheme) {
         return scheme.join();
     });
@@ -26,26 +26,24 @@ var drawColorSchemes = function(colorSchemes, timeout) {
         }
     });
     // add new schemes
-    setTimeout(function() {
-        var html = colorSchemes.map(function(scheme) {
-            var elem = $("[data-scheme='" + scheme.join() + "']");
-            if(elem[0]) return;
-            var html = scheme.map(function(color) {
-                var className = 'color';
-                if(!$("[data-color='" + color.join() + "']")[0]) {
-                    // 不是从种群中来的颜色，那就是突变来的
-                    className += ' mutation';
-                }
-                return "<div class='" + className + "' data-color='" + color.join() + "'style='background: rgb(" + color.join(',') + ")'></div>";
-            });
-            scheme = "<div class='scheme' data-scheme='" + scheme.join() + "'>"
-                + "<div class='fitness'>Fitness: " + fitness(scheme) + "</div>"
-                + html.join('') 
-                + "</div>";
-            return scheme;
+    var html = colorSchemes.map(function(scheme) {
+        var elem = $("[data-scheme='" + scheme.join() + "']");
+        if(elem[0]) return;
+        var html = scheme.map(function(color) {
+            var className = 'color';
+            if(!$("[data-color='" + color.join() + "']")[0]) {
+                // 不是从种群中来的颜色，那就是突变来的
+                className += ' mutation';
+            }
+            return "<div class='" + className + "' data-color='" + color.join() + "'style='background: rgb(" + color.join(',') + ")'></div>";
         });
-        $('#schemes').append(html.join(''));
-    }, timeout);
+        scheme = "<div class='scheme' data-scheme='" + scheme.join() + "'>"
+            + "<div class='fitness'>Fitness: " + fitness(scheme) + "</div>"
+            + html.join('') 
+            + "</div>";
+        return scheme;
+    });
+    $('#schemes').append(html.join(''));
 };
 
 $.get('pool.json', function(data) {
@@ -60,12 +58,13 @@ $.get('pool.json', function(data) {
     opts.K = 5;
     opts.N = 5;
     opts.mutationRate = 0.1;
-    opts.birthRate = 0.5;
+    opts.birthRate = 1;
     opts.fitness = fitness;
     var population = new GenePool(opts);
-    drawColorSchemes(population.toArray(), 0);
     $('#iter').click(function() {
-        population.next();
-        drawColorSchemes(population.toArray(), 2000);
+        population.reproduce();
+        drawColorSchemes(population.toArray());
+        population.select();
+        drawColorSchemes(population.toArray());
     });
 });

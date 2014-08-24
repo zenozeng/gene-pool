@@ -97,7 +97,7 @@ function Population(opts) {
 var population = Population.prototype;
 
 // 繁殖
-population.reproduction = function() {
+population.reproduce = function() {
     var child,
         gene;
 
@@ -135,7 +135,7 @@ population.reproduction = function() {
 };
 
 // 人工定向选择
-population.directionalSelection = function() {
+population.select = function() {
     var self = this;
 
     // Sort by fitness
@@ -169,10 +169,10 @@ population.getRandomGene = function() {
 population.next = function() {
 
     // 先繁殖
-    this.reproduction();
+    this.reproduce();
 
     // 定向选择
-    this.directionalSelection();
+    this.select();
 
 };
 
@@ -190,8 +190,12 @@ population.timeout = function(timeout, callback) {
     var end = Date().now() + timeout;
     var iter = function() {
         if(Date().now() < end) {
-            self.next();
-            setTimeout(iter, 1);
+            try {
+                self.next();
+                setTimeout(iter, 1);
+            } catch(e) {
+                callback(e, self.toArray());
+            }
         } else {
             callback(null, self.toArray());
         }
