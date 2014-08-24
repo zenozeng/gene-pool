@@ -22,3 +22,7 @@ Genetic algorithms in a given gene pool
 - 基因相同但基因顺序不同的个体视为相同
 
 - 请保证基因库充足，否则可能陷入死循环 [TODO: fix this]
+
+## Demo
+
+Demo 是一个以亮度作为 fitness 的一个测试。

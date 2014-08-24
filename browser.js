@@ -85,7 +85,7 @@ function Population(opts) {
     this.N = opts.N;
     // the very first generation
     this.population = [];
-    this.ids = {}; // 记住产生过的个体
+    this.history = {}; // 记住产生过的个体
 
     // 将个体数补满到 K
     while(this.population.length < this.K) {
@@ -93,6 +93,7 @@ function Population(opts) {
         this.tryAddIndividual(individual);
     }
     this.survivalRate = opts.survivalRate;
+    this.mutationRate = opts.mutationRate;
 }
 
 var population = Population.prototype;
@@ -101,8 +102,8 @@ var population = Population.prototype;
 population.tryAddIndividual = function(individual) {
     individual.sort();
     var id = JSON.stringify(individual);
-    if(!this.ids[id]) {
-        this.ids[id] = 1;
+    if(!this.history[id]) {
+        this.history[id] = 1;
         this.population.push(individual);
     }
 };
@@ -152,9 +153,11 @@ population.next = function() {
             if(Math.random() < this.mutationRate) {
                 // 基因突变
                 gene = this.genePool.getRandomGene();
+                console.log("mutation", gene);
             } else {
                 // 从当前种群里获取基因
                 gene = this.getRandomGene();
+                console.log("population", gene);
             }
             if(child.indexOf(gene) < 0) {
                 child.push(gene);
