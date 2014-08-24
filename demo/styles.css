@@ -1,0 +1,10 @@
+body { background: #fff; padding: 2em; }
+h2 {margin: 5px; color: #333; font-size: 48px; margin-top: 15px; line-height: 64px;}
+#colors .color { width: 20px; height: 20px; display: inline-block; margin: 5px; border: 1px solid #ddd; }
+.scheme { margin: 5px; padding: 5px; border: 1px solid #ddd; display: inline-block;}
+.scheme .color { width: 30px; height: 30px; display: inline-block; margin: 5px; border: 1px solid #ddd; }
+#iter {
+    border: 1px solid #ddd; border-radius: 5px; display: inline-block; padding: 0 5px;
+    cursor: pointer; margin: 8px 10px; color: #333;
+    font-size: 28px; line-height: 48px;
+}
