@@ -1,1 +1,30 @@
-{}
+{
+  "name": "gene-pool",
+  "description": "Genetic algorithms in a given gene pool",
+  "version": "0.0.1",
+  "main": "lib/population.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "js-combinatorics": "^0.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenozeng/gene-pool.git"
+  },
+  "keywords": [
+    "gene",
+    "pool"
+  ],
+  "author": "Zeno Zeng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zenozeng/gene-pool/issues"
+  },
+  "homepage": "https://github.com/zenozeng/gene-pool"
+}

@@ -58,7 +58,7 @@ $.get('pool.json', function(data) {
         return data.weight;
     });
     opts.K = 5;
-    opts.N = 5;
+    opts.N = 39;
     opts.mutationRate = 0.1;
     opts.survivalRate = 0.5;
     opts.fitness = fitness;
@@ -66,7 +66,6 @@ $.get('pool.json', function(data) {
     drawColorSchemes(population.toArray(), 0);
     $('#iter').click(function() {
         population.next();
-        console.log(population.history);
         drawColorSchemes(population.toArray(), 2000);
     });
 });

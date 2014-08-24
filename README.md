@@ -26,3 +26,5 @@ Genetic algorithms in a given gene pool
 ## Demo
 
 Demo 是一个以亮度作为 fitness 的一个测试。
+
+http://zenozeng.github.io/gene-pool/demo/
