@@ -1,3 +1,3 @@
 #!/bin/bash
 
-browserify lib/population.js -S > browser.js
+browserify lib/population.js -s GenePool > browser.js

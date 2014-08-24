@@ -1,9 +1,7 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self),o.GenePool=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // genes: 基因库
 // n: 单个个体基因数
 // weights: 每个基因的权重，影响出现的随机程度
-
-var utils = require('./utils');
 
 function GenePool(genes, n, weights) {
 
@@ -13,7 +11,6 @@ function GenePool(genes, n, weights) {
 
     weights = weights || genes.map(function() { return 1; });
 
-    // todo: test this
     // 随机取得一条基因
     var getRandomGene = (function(genes, weights) {
         var sum = 0;
@@ -27,8 +24,8 @@ function GenePool(genes, n, weights) {
                 if(random < weightBounds[i]) {
                     return genes[i];
                 }
-                return genes[weightBounds.length];
             }
+            return genes[weightBounds.length - 1];
         });
     })(genes, weights);
 
@@ -40,6 +37,8 @@ function GenePool(genes, n, weights) {
             gene = getRandomGene();
             if(genes.indexOf(gene) < 0) {
                 genes.push(gene);
+            } else {
+                genes = []; // 保证概率分布结果符合预期，见：https://github.com/zenozeng/gene-pool/issues/2
             }
         }
         return genes;
@@ -55,9 +54,8 @@ module.exports = GenePool;
 
 
 
-},{"./utils":3}],2:[function(require,module,exports){
-var utils = require('./utils'),
-    GenePool = require('./gene-pool');
+},{}],2:[function(require,module,exports){
+var GenePool = require('./gene-pool');
 
 // N: 个体基因数
 // K: 种群规模
@@ -67,16 +65,28 @@ var utils = require('./utils'),
 // survivalRate: 存活率，换代时，每一代能够存活的比例
 
 function Population(opts) {
-    this.genePool = GenePool(opts.genes, opts.N, opts.weights);
+
+    // allow use object for gene
+    var genes = opts.genes.map(function(gene, index) {
+        return index;
+    });
+    this.fitness = function(individual) {
+        individual = individual.map(function(geneIndex) {
+            return opts.genes[geneIndex];
+        });
+        return opts.fitness(individual);
+    };
+
+    this.genePool = GenePool(genes, opts.N, opts.weights);
     this.K = opts.K;
-    this.isEqualIndividual = opts.isEqualIndividual;
-    this.fitness = opts.fitness;
     // the very first generation
     this.population = [];
     this.ids = []; // 记住产生过的个体
+
     // 将个体数补满到 K
     while(this.population.length < this.K) {
         var individual = this.genePool.getRandomIndividual();
+        console.log(individual);
         this.tryAddIndividual(individual);
     }
     this.survivalRate = opts.survivalRate;
@@ -130,8 +140,6 @@ population.next = function() {
     // 定向选择
     this.directionalSelection();
 
-    // 交叉互换基因产生子代
-    // 补充总个体数到 K 值
     var child,
         gene;
     while(this.population.length < this.K) {
@@ -152,19 +160,7 @@ population.next = function() {
     }
 };
 
-},{"./gene-pool":1,"./utils":3}],3:[function(require,module,exports){
-var utils = {};
+module.exports = Population;
 
-utils.inArray = function(elem, array, isEqual) {
-    isEqual = isEqual || (function(a, b) { return a == b; });
-    for(var i = 0; i < array.length; i++) {
-        if(isEqual(array[i], elem)) {
-            return true;
-        }
-    }
-    return false;
-};
-
-module.exports = utils;
-
-},{}]},{},[2]);
+},{"./gene-pool":1}]},{},[2])(2)
+});

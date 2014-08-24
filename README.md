@@ -21,6 +21,4 @@ Genetic algorithms in a given gene pool
 
 - 基因相同但基因顺序不同的个体视为相同
 
-- 基因必须是简单类型：string / number 之类，可以 indexOf 去判断的。
-
 - 请保证基因库充足，否则可能陷入死循环 [TODO: fix this]
